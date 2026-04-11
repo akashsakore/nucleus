@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: 235494785010.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          env:
+            - name: PORT
+              value: "5000"
+            - name: DATABASE_URL
+              value: postgresql://postgres:root@postgres:5432/appdb
+            - name: JWT_SECRET
+              value: myRandomSecretKey123!@#nucleus2026
+            - name: JWT_EXPIRES_IN
+              value: 7d
+            - name: NODE_ENV
+              value: production
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 5000
+      targetPort: 5000
