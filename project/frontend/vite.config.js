@@ -5,10 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    allowedHosts: 'all',
+    allowedHosts: ['cloudfarm.fun', 'cloudfarm.fun'],
     proxy: {
       '/api': {
-        target: 'http://backend:5000',
+        target: 'http://backend_container:5000',
         changeOrigin: true,
       },
     },
