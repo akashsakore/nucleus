@@ -1,14 +1,11 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
 export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    allowedHosts: ['cloudfarm.fun', 'cloudfarm.fun'],
+    allowedHosts: ['cloudfarm.fun', '184.73.33.236'],
     proxy: {
       '/api': {
-        target: 'http://backend_container:5000',
+        target: 'http://backend:5000', // ✅ FIXED
         changeOrigin: true,
       },
     },

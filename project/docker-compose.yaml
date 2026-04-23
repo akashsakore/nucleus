@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  postgresdb:
+    image: postgres
+    container_name: postgresdb_container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: appdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - nucleus
+
+  backend:
+    build: ./backend
+    container_name: backend_container
+    restart: always
+    depends_on:
+      - postgresdb
+    environment:
+      DATABASE_URL: postgresql://postgres:root@postgresdb_container:5432/appdb
+    ports:
+      - 5000:5000
+    networks:
+      - nucleus
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_container
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - 5173:5173
+    networks:
+      - nucleus
+
+volumes:
+  pgdata:
+
+networks:
+  nucleus:
+
