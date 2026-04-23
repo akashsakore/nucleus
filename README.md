@@ -70,3 +70,8 @@ aws ec2 describe-instances --query "Reservations[].Instances[].InstanceId" --out
 aws ec2 terminate-instances --instance-ids i-0abc12345xyz --region us-east-1
 aws ec2 describe-instances --instance-ids i-0abc12345xyz
 ```
+```
+docker run -d -p 5000:5000 --network nucleus --name backend_container backend-image:1
+docker run -d --name frontend_container --network nucleus -p 5173:5173 frontend-image:1
+docker run -d --network nucleus --name postgresdb_container -e POSTGRES_PASSWORD=root postgres
+```
