@@ -2,9 +2,9 @@ version: "3.8"
 
 services:
   postgresdb:
-    image: postgres
+    image: postgres:15
     container_name: postgresdb_container
-    restart: always
+      #restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
@@ -13,15 +13,20 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - nucleus
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
 
   backend:
     build: ./backend
     container_name: backend_container
     restart: always
     depends_on:
-      - postgresdb
+      postgresdb:
+        condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:root@postgresdb_container:5432/appdb
+      DATABASE_URL: postgresql://postgres:root@postgresdb:5432/appdb
     ports:
       - 5000:5000
     networks:
