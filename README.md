@@ -97,3 +97,5 @@ docker run -d -p 5000:5000 --network nucleus --name backend_container backend-im
 docker run -d --name frontend_container --network nucleus -p 5173:5173 frontend-image:1
 docker run -d --network nucleus --name postgresdb_container -e POSTGRES_PASSWORD=root postgres
 ```
+<img width="800" height="403" alt="image" src="https://github.com/user-attachments/assets/2b30db3f-ff87-44b4-bc9c-228963f6a840" />
+
