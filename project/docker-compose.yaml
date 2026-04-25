@@ -32,14 +32,30 @@ services:
     networks:
       - nucleus
 
-  frontend:
-    build: ./frontend
-    container_name: frontend_container
+        # frontend:
+        # build: ./frontend
+        # container_name: frontend_container
+        # restart: always
+        # depends_on:
+        #   - backend
+        # ports:
+        #   - 80:80
+        # networks:
+        #   - nucleus
+        # volumes:
+        #   - ./nginx.conf:/etc/nginx/conf.d/default.conf
+        #   - ./frontend/dist:/usr/share/nginx/html
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
     restart: always
+    ports: 
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./frontend/dist:/usr/share/nginx/html
     depends_on:
       - backend
-    ports:
-      - 5173:5173
     networks:
       - nucleus
 

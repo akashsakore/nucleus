@@ -6,6 +6,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
+    allowedHosts: ['cloudfarm.fun'],
     proxy: {
       '/api': {
         target: 'http://backend:5000', // ✅ correct for docker-compose
