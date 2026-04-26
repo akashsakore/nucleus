@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    environment {
+        SERVER_IP = "54.161.161.222"
+        SERVER_USER = "ubuntu"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/akashsakore/nucleus.git'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sshagent(['akash']) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP '
+                        cd ~/nucleus/project &&
+                        git pull origin main &&
+                        docker compose down &&
+                        docker compose up --build -d
+                    '
+                    """
+                }
+            }
+        }
+    }
+}
